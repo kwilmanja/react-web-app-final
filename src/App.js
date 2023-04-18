@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import Nav from "./nav";
 import Home from "./home/Home";
 import Search from "./search/Search";
+import Results from "./search/Results";
 
 function App() {
   return (
@@ -16,8 +17,9 @@ function App() {
               <Nav/>
 
               <Routes>
-                <Route path="/" element={<Home />} />
+                  <Route path="/" element={<Home />} />
                   <Route path="/search/*" element={<Search />} />
+                  <Route path="/results/:address" element={<Results/>} />
 
               </Routes>
             </BrowserRouter>

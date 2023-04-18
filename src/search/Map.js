@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {GoogleMap, Marker, useJsApiLoader, Autocomplete, LoadScript} from '@react-google-maps/api';
 import axios from "axios";
 import {useNavigate, useParams} from "react-router";
@@ -6,50 +6,13 @@ const GOOGLE_KEY = 'AIzaSyBAuQ1rbrQNRsMNx3hNQqXskxkf6vE8F6c';
 
 function Map() {
 
-    const { address } = useParams();
     const navigate = useNavigate();
-    const [search, setSearch] = useState(decodeURIComponent(address));
-    const [results, setResults] = useState([]);
-    const [latLng, setLatLng] = useState({ lat: null, lng: null });
-
-    useEffect(() => {
-        // searchNapster();
-        if (address) {
-            setSearch(address);
-            searchTrails();
-        }
-    }, [address]);
-
-    const searchTrails = async () => {
-        // const results = await searchForTrails(search);
-        const results = [latLng];
-        setResults(results);
-        navigate(`/search/${search}`);
-    };
-
+    const destinationRef = useRef();
 
     const newAddress = () => {
-        const newAddress = encodeURIComponent(search);
-        navigate(`/search/${newAddress}`);
+        const newAddress = encodeURIComponent(destinationRef.current.value);
+        navigate(`/results/${newAddress}`);
     }
-
-    const handleGeocodeClick = () => {
-        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${newAddress}&key=${GOOGLE_KEY}`;
-        axios
-            .get(url)
-            .then((response) => {
-                if (response.data.status === "OK") {
-                    const { lat, lng } = response.data.results[0].geometry.location;
-                    setLatLng({ lat, lng });
-                } else {
-                    console.error(`Geocode error: ${response.data.status}`);
-                }
-            })
-            .catch((error) => {
-                console.error(`Geocode error: ${error.message}`);
-            });
-
-    };
 
     const { isLoaded } =
         useJsApiLoader({
@@ -77,6 +40,8 @@ function Map() {
 
     return (
         <div>
+            <h1>Hello </h1>
+
             {/*<GoogleMap*/}
             {/*    mapContainerStyle={mapContainerStyle}*/}
             {/*    center={center}*/}
@@ -92,25 +57,11 @@ function Map() {
             {/*<Autocomplete>*/}
                 <input className="form-control form-control-lg" type="text"
                        id="inputLarge" placeholder="Destination"
-                       value={search}
+                       ref={destinationRef}
                 />
             {/*</Autocomplete>*/}
             <button className="btn btn-primary" type="button" id="button-addon2"
-            // onClick={}
-            >Submit</button>
-
-            <ul className="list-group">
-                {
-                    results.map(trail => <h1>{trail.lat}</h1>)
-                }
-            </ul>
-
-
-            {/*{latLng.lat && latLng.lng && (*/}
-            {/*    <div>*/}
-            {/*        Latitude: {latLng.lat}, Longitude: {latLng.lng}*/}
-            {/*    </div>*/}
-            {/*)}*/}
+            onClick={newAddress}>Submit</button>
 
         </div>
     );

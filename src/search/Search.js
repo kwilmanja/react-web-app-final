@@ -17,12 +17,8 @@ function Search() {
     return (
         <div>
             <h1>Search</h1>
-
             <Map/>
-            {/*<Results/>*/}
 
-            {/*<Geocode/>*/}
-            {/*<button onClick={searchPhilosophers}>hello world</button>*/}
         </div>
     );
 }
