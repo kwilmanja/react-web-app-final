@@ -7,6 +7,7 @@ import {
     updateUserThunk,
     findUserByUsernameThunk
 } from "../services/auth-thunks";
+import {followUserThunk, unfollowUserThunk} from "../follows/follows-thunks.js";
 
 
 function Profile() {
@@ -29,9 +30,28 @@ function Profile() {
         getProfile();
     }, []);
 
+    const handleFollow = () => {
+        dispatch(followUserThunk(profile._id));
+    }
+
+    const handleUnfollow = () => {
+        dispatch(unfollowUserThunk(profile._id));
+    }
+
 
     return (
         <div>
+
+            <button className="btn btn-success float-end"
+            onClick={handleFollow}>
+                Follow
+            </button>
+
+            <button className="btn btn-success float-end"
+                    onClick={handleUnfollow}>
+                Unfollow
+            </button>
+
             {profile && (
                      <div>
                          <h1>First Name: {profile.firstName}</h1>

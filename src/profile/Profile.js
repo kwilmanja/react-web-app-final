@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { profileThunk, logoutThunk, updateUserThunk } from "../services/auth-thunks";
+import { profileThunk, logoutThunk, updateUserThunk } from "../services/auth-thunks.js";
+import {findFollowedThunk, findFollowerThunk} from "../follows/follows-thunks.js";
 
 
 function Profile() {
     const { currentUser } = useSelector((state) => state.auth);
+    const {follower, followed} = useSelector((state) => state.follows);
+
     const [profile, setProfile] = useState(currentUser);
     const [editing, setEditing] = useState(false);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -22,6 +26,8 @@ function Profile() {
 
     useEffect(() => {
         getProfile();
+        dispatch(findFollowerThunk(profile._id));
+        dispatch(findFollowedThunk(profile._id));
     }, []);
 
     const edit = () => {
@@ -112,6 +118,14 @@ function Profile() {
                             navigate("/login");
                         }}>
                         Logout</button>
+
+
+                    <h2>Following: </h2>
+                    {followed}
+                    <h2>Followers: </h2>
+                    {follower}
+
+
 
                 </div>
             )}

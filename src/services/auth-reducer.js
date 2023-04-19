@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
     loginThunk, logoutThunk, registerThunk,
     profileThunk, updateUserThunk, findUserByUsernameThunk,
-} from "./auth-thunks";
+} from "./auth-thunks.js";
 
 
 
