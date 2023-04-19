@@ -1,11 +1,15 @@
 import {Link} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 function Nav() {
+
+    const { currentUser } = useSelector((state) => state.auth);
+
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+            <nav className="navbar navbar-expand-sm navbar-dark bg-primary">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="#">The Philosopher Index</a>
+                    <a className="navbar-brand" href="#">The Mountain Biker Blog</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarColor01" aria-controls="navbarColor01"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -18,28 +22,33 @@ function Nav() {
                                 <span className="visually-hidden">(current)</span>
 
                             </li>
-                            <li>
-                                <form className="d-flex">
-                                    <input className="form-control me-sm-2" type="search"
-                                           placeholder="Search"/>
-                                    <button className="btn btn-secondary my-2 my-sm-0" type="submit"
-                                            fdprocessedid="bsldw">Search
-                                    </button>
-                                </form>
-                            </li>
-
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/login">Login</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/profile">Profile</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/details">Details</Link>
-                            </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/search">Search</Link>
                             </li>
+
+                            {!currentUser &&
+                             <li className="nav-item">
+                                 <Link className="nav-link" to="/login">Login</Link>
+                             </li>
+                            }
+
+                            {!currentUser &&
+                             <li className="nav-item">
+                                 <Link className="nav-link" to="/register">Register</Link>
+                             </li>
+                            }
+
+                            {currentUser &&
+                             <li className="nav-item">
+                                 <Link className="nav-link" to="/profile">Profile</Link>
+                             </li>
+                            }
+
+                            {currentUser && currentUser.isAdmin &&
+                             <li className="nav-item">
+                                 <Link className="nav-link" to="/admin">Admin</Link>
+                             </li>
+                            }
                         </ul>
 
                     </div>
