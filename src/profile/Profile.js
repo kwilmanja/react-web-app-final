@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { profileThunk, logoutThunk, updateUserThunk } from "../services/auth-thunks.js";
 import {findFollowedThunk, findFollowerThunk} from "../follows/follows-thunks.js";
+import TrailCard from "../results/TrailCard";
 
 
 function Profile() {
@@ -26,8 +27,8 @@ function Profile() {
 
     useEffect(() => {
         getProfile();
-        dispatch(findFollowerThunk(profile._id));
-        dispatch(findFollowedThunk(profile._id));
+        dispatch(findFollowerThunk(profile.username));
+        dispatch(findFollowedThunk(profile.username));
     }, []);
 
     const edit = () => {
@@ -121,9 +122,11 @@ function Profile() {
 
 
                     <h2>Following: </h2>
-                    {followed}
+                    {followed &&
+                     followed.map(follow => <h1>{follow.followed}</h1>)}
                     <h2>Followers: </h2>
-                    {follower}
+                    {follower &&
+                     follower.map(follow => <h1>{follow.follower}</h1>)}
 
 
 

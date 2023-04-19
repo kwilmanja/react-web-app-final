@@ -4,23 +4,23 @@ const FOLLOWS_API = 'http://localhost:4000/api/follows';
 
 const api = axios.create({withCredentials: true});
 
-export const followUser = async (followedUserID) => {
-    const response = await api.post(`${FOLLOWS_API}/${followedUserID}`);
+export const followUser = async (followedUsername) => {
+    const response = await api.post(`${FOLLOWS_API}/${followedUsername}`);
     return response.data;
 }
 
-export const unfollowUser = async (unfollowedUserID) => {
-    const response = await api.delete(`${FOLLOWS_API}/${unfollowedUserID}`);
+export const unfollowUser = async (unfollowedUsername) => {
+    const response = await api.delete(`${FOLLOWS_API}/${unfollowedUsername}`);
     return response.data;
 }
 
-export const findFollower = async (userID) => {
-    const response = await api.post(`${FOLLOWS_API}/follower/${userID}`);
+export const findFollower = async (username) => {
+    const response = await api.post(`${FOLLOWS_API}/follower/${username}`);
     return response.data;
 }
 
-export const findFollowed = async (userID) => {
-    const response = await api.post(`${FOLLOWS_API}/followed/${userID}`);
+export const findFollowed = async (username) => {
+    const response = await api.post(`${FOLLOWS_API}/followed/${username}`);
     return response.data;
 }
 

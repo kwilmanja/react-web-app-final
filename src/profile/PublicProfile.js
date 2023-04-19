@@ -31,11 +31,11 @@ function Profile() {
     }, []);
 
     const handleFollow = () => {
-        dispatch(followUserThunk(profile._id));
+        dispatch(followUserThunk(profile.username));
     }
 
     const handleUnfollow = () => {
-        dispatch(unfollowUserThunk(profile._id));
+        dispatch(unfollowUserThunk(profile.username));
     }
 
 

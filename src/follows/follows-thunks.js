@@ -3,20 +3,20 @@ import {findFollowed, findFollower, followUser, unfollowUser} from "./follows-se
 
 export const followUserThunk = createAsyncThunk(
     'followUser',
-    async (userID) => await followUser(userID)
+    async (username) => await followUser(username)
 )
 
 export const unfollowUserThunk = createAsyncThunk(
     'unfollowUser',
-    async (userID) => await unfollowUser(userID)
+    async (username) => await unfollowUser(username)
 )
 
 export const findFollowerThunk = createAsyncThunk(
     'findFollowerUser',
-    async (userID) => await findFollower(userID)
+    async (username) => await findFollower(username)
 )
 
 export const findFollowedThunk = createAsyncThunk(
     'findFollowedUser',
-    async (userID) => await findFollowed(userID)
+    async (username) => await findFollowed(username)
 )
