@@ -22,7 +22,9 @@ const reviewSlice = createSlice({
                                           // state.listedReviews.replace(payload);
                                       },
                                       [deleteReviewThunk.fulfilled]: (state, { payload }) => {
-                                          state.listedReviews.remove(payload);
+                                          state.listedReviews = state.listedReviews.filter(
+                                              review => review._id !== payload
+                                          );
                                       },
                                       [findReviewsFromTrailIDThunk.fulfilled]: (state, { payload }) => {
                                           state.listedReviews = payload;

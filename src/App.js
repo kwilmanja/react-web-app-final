@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import Nav from "./nav";
 import Home from "./home/Home";
 import Search from "./search/Search";
-import Results from "./results/Results";
+import Results from "./search/Results";
 import Details from "./details/Details";
 import Profile from "./profile/Profile";
 import Login from "./login/Login";

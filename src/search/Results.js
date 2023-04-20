@@ -1,14 +1,17 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import axios from "axios";
 import {useNavigate, useParams} from "react-router";
-import {trailSearchLatLng} from "./trail-service";
+import {trailSearchLatLng} from "../trails/trail-service";
 import TrailCard from "./TrailCard";
+import {useDispatch} from "react-redux";
+import {trailSearchLatLngThunk} from "../trails/trail-thunks";
 const GOOGLE_KEY = 'AIzaSyBAuQ1rbrQNRsMNx3hNQqXskxkf6vE8F6c';
 
 function Results() {
 
     const {address} = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [results, setResults] = useState([]);
 
     // useEffect(() => {
@@ -22,6 +25,7 @@ function Results() {
         console.log(address);
         console.log([lat, lng]);
         const result = await trailSearchLatLng(lat, lng);
+        //const result = dispatch(trailSearchLatLngThunk({lat: lat, lng: lng}));
         console.log(result.data);
         setResults(result.data);
     };
