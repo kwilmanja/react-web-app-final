@@ -1,34 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
-import { profileThunk, logoutThunk, updateUserThunk } from "../services/auth-thunks.js";
+import {useNavigate, useParams} from "react-router";
+import {
+    profileThunk,
+    logoutThunk,
+    updateUserThunk,
+    findUserByUsernameThunk
+} from "../users/auth-thunks.js";
 import {findFollowedThunk, findFollowerThunk} from "../follows/follows-thunks.js";
-import TrailCard from "../results/TrailCard";
+import FollowerFollowed from "../follows/FollowerFollowed";
 
 
 function Profile() {
     const { currentUser } = useSelector((state) => state.auth);
-    const {follower, followed} = useSelector((state) => state.follows);
 
-    const [profile, setProfile] = useState(currentUser);
+    const [profile, setProfile] = useState({});
     const [editing, setEditing] = useState(false);
+
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const getProfile = async () => {
-        // const profile = await userService.profile();
         const action = await dispatch(profileThunk());
-        if(!action.payload){
+        if (!action.payload) {
             navigate("/login");
         }
         setProfile(action.payload);
     };
 
+    //
+    // useEffect(async () => {
+    //     await getProfile();
+    //     await getFollowInformation();
+    // }, []);
+
+
     useEffect(() => {
-        getProfile();
-        dispatch(findFollowerThunk(profile.username));
-        dispatch(findFollowedThunk(profile.username));
+        if(!currentUser){
+            getProfile();
+        }
     }, []);
 
     const edit = () => {
@@ -79,7 +90,9 @@ function Profile() {
                          <div>
                              <div className="d-inline">
                                  <label htmlFor="exampleSelect1" className="mr-2">Level</label>
-                                 <select className="form-select" id="exampleSelect1" onChange={(event) => {
+                                 <select className="form-select" id="exampleSelect1"
+                                         value={profile.level}
+                                         onChange={(event) => {
                                      const newProfile = {
                                          ...profile,
                                          level: event.target.value,
@@ -121,13 +134,7 @@ function Profile() {
                         Logout</button>
 
 
-                    <h2>Following: </h2>
-                    {followed &&
-                     followed.map(follow => <h1>{follow.followed}</h1>)}
-                    <h2>Followers: </h2>
-                    {follower &&
-                     follower.map(follow => <h1>{follow.follower}</h1>)}
-
+                    <FollowerFollowed username={profile.username}/>
 
 
                 </div>

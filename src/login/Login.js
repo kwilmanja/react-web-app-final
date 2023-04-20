@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { loginThunk } from "../services/auth-thunks";
+import { loginThunk } from "../users/auth-thunks";
 function Login() {
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const handleLogin = async () => {
-        try {
-            await dispatch(loginThunk({ username, password }));
-            navigate("/profile");
-        } catch (e) {
-            alert(e);
-        }
+        await dispatch(loginThunk({ username, password }));
+        navigate("/profile");
     };
+
     return (
         <div>
             <h1>Login Screen</h1>

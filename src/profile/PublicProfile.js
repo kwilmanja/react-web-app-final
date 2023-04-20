@@ -6,13 +6,20 @@ import {
     logoutThunk,
     updateUserThunk,
     findUserByUsernameThunk
-} from "../services/auth-thunks";
-import {followUserThunk, unfollowUserThunk} from "../follows/follows-thunks.js";
+} from "../users/auth-thunks";
+import {
+    findFollowedThunk,
+    findFollowerThunk,
+    followUserThunk,
+    unfollowUserThunk
+} from "../follows/follows-thunks.js";
 
 
 function Profile() {
     const {username} = useParams();
     const [profile, setProfile] = useState();
+    const {follower, followed} = useSelector((state) => state.follows);
+
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -28,6 +35,8 @@ function Profile() {
 
     useEffect(() => {
         getProfile();
+        //dispatch(findFollowerThunk(username));
+        //dispatch(findFollowedThunk(username));
     }, []);
 
     const handleFollow = () => {
@@ -57,6 +66,15 @@ function Profile() {
                          <h1>First Name: {profile.firstName}</h1>
                          <h1>Last Name: {profile.lastName}</h1>
                          <h1>Level: {profile.level}</h1>
+
+                         <h2>Following: </h2>
+                        {followed &&
+                            followed.map(follow => <h1 onClick={navigate(`/profile/${follow.followed}`)}>
+                        {follow.followed}</h1>)}
+                            <h2>Followers: </h2>
+                        {follower &&
+                            follower.map(follow => <h1 onClick={navigate(`/profile/${follow.follower}`)}
+                            >{follow.follower}</h1>)}
                      </div>
             )}
 

@@ -1,7 +1,7 @@
-import {findFollowedThunk, findFollowerThunk, unfollowUserThunk} from "./follows-thunks.js";
+import {findFollowedThunk, findFollowerThunk, unfollowUserThunk, followUserThunk,
+    findFollowThunk} from "./follows-thunks.js";
 
 const {createSlice} = require("@reduxjs/toolkit");
-const {followUserThunk} = require("./follows-thunks");
 
 const followsSlice = createSlice({
         name: 'follows',
@@ -21,8 +21,8 @@ const followsSlice = createSlice({
             },
             [findFollowedThunk.fulfilled]: (state, {payload}) => {
                 state.followed = (payload);
-            }
-
+            },
+            [findFollowThunk.fulfilled]: (state, {payload}) => {},
         }
     });
 
