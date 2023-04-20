@@ -1,7 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {
     createReview,
-    deleteReview,
+    deleteReview, findAllReviews,
     findReview,
     findReviewsFromTrailID, findReviewsFromUsername,
     updateReview
@@ -37,3 +37,10 @@ export const findReviewsFromUsernameThunk = createAsyncThunk(
     'findReviewsFromUsername',
     async (username) => await findReviewsFromUsername(username)
 )
+
+export const findAllReviewsThunk = createAsyncThunk(
+    'findAllReviews',
+    async () => await findAllReviews()
+)
+
+

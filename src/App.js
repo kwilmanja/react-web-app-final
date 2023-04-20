@@ -13,6 +13,7 @@ import Login from "./login/Login";
 import Register from "./login/Register";
 import PublicProfile from "./profile/PublicProfile";
 import CurrentUserContext from "./users/current-user-context";
+import Admin from "./login/Admin";
 
 
 
@@ -34,6 +35,7 @@ function App() {
                       <Route path="/register" element={<Register />} />
                       <Route path="/profile" element={<Profile />} />
                       <Route path="/profile/:username" element={<Profile />} />
+                      <Route path="/admin" element={<Admin/>}/>
 
                   </Routes>
                 </BrowserRouter>

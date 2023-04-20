@@ -2,40 +2,48 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {useNavigate, useParams} from "react-router";
 import {findFollowedThunk, findFollowerThunk} from "./follows-thunks";
+import {profileThunk} from "../users/auth-thunks";
 
 
 
-function FollowerFollowed(props) {
-    const username = props.username;
-    // const {follower, followed} = useSelector((state) => state.follows);
+function FollowerFollowed() {
     const [follower, setFollower] = useState(null);
     const [followed, setFollowed] = useState(null);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const getFollowInformation = async () => {
-
+    const getFollowInformation = async (username) => {
         const followerInfo = await dispatch(findFollowerThunk(username));
         const followedInfo = await dispatch(findFollowedThunk(username));
-        console.log('username');
-        console.log(username);
-        console.log(follower);
-        console.log(followed);
+        // console.log('username');
+        // console.log(username);
+        // console.log(follower);
+        // console.log(followed);
         setFollowed(followedInfo.payload);
         setFollower(followerInfo.payload);
     }
 
-    useEffect(async () => {
-        await getFollowInformation();
 
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const actionProfile = await dispatch(profileThunk());
+                getFollowInformation(actionProfile.payload.username);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchData();
     }, []);
 
     return (
         <div>
             <h1>Follow Information</h1>
 
-            {username && ( (follower && followed) || getFollowInformation()) &&
+
+            {(follower && followed) &&
              (
              <div>
                     <h2>Following: </h2>

@@ -44,7 +44,7 @@ function Nav() {
                              </li>
                             }
 
-                            {currentUser && currentUser.isAdmin &&
+                            {currentUser && currentUser["isAdmin"] &&
                              <li className="nav-item">
                                  <Link className="nav-link" to="/admin">Admin</Link>
                              </li>

@@ -34,4 +34,9 @@ export const findReviewsFromUsername = async (username) => {
     return response.data;
 }
 
+export const findAllReviews = async () => {
+    const response = await api.get(`${REVIEWS_API}/all`);
+    return response.data;
+}
+
 

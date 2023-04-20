@@ -45,3 +45,8 @@ export const findUserByUsername = async (username) => {
     const response = await api.get(`${USERS_URL}/profile/${username}`);
     return response.data;
 };
+
+export const findAllUsers = async () => {
+    const response = await api.get(`${USERS_URL}/all`);
+    return response.data;
+};

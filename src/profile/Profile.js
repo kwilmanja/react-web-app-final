@@ -21,28 +21,17 @@ function Profile() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const getProfile = async () => {
-        const action = await dispatch(profileThunk());
-        if (!action.payload) {
-            navigate("/login");
-        }
-        setProfile(action.payload);
-    };
+    // const getProfile = async () => {
+    //     const action = await dispatch(profileThunk());
+    //     if (!action.payload) {
+    //         navigate("/login");
+    //     }
+    //     setProfile(action.payload);
+    // };
 
-    //
-    // useEffect(async () => {
-    //     await getProfile();
-    //     await getFollowInformation();
-    // }, []);
-
-
-    useEffect(() => {
-        if(!currentUser){
-            getProfile();
-        }
-    }, []);
 
     const edit = () => {
+        setProfile(currentUser);
         setEditing(true);
     };
 
@@ -53,10 +42,11 @@ function Profile() {
 
 
     return (
+
         <div>
-            {profile && (
+            {currentUser && (
                 <div>
-                    <h1>{profile.username}'s Profile</h1>
+                    <h1>{currentUser.username}'s Profile</h1>
 
                     {editing ?
                      <div>
@@ -111,9 +101,9 @@ function Profile() {
                      </div>
                              :
                      <div>
-                         <h1>First Name: {profile.firstName}</h1>
-                         <h1>Last Name: {profile.lastName}</h1>
-                         <h1>Level: {profile.level}</h1>
+                         <h1>First Name: {currentUser.firstName}</h1>
+                         <h1>Last Name: {currentUser.lastName}</h1>
+                         <h1>Level: {currentUser.level}</h1>
 
                      </div>
                     }
@@ -134,7 +124,7 @@ function Profile() {
                         Logout</button>
 
 
-                    <FollowerFollowed username={profile.username}/>
+                    <FollowerFollowed profile={profile}/>
 
 
                 </div>

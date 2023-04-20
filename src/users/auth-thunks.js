@@ -37,3 +37,9 @@ export const findUserByUsernameThunk = createAsyncThunk(
     }
 );
 
+export const findAllUsersThunk = createAsyncThunk(
+    "users/findAllUsers", async () => {
+        return await authService.findAllUsers();
+    }
+);
+
