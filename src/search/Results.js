@@ -12,14 +12,17 @@ function Results() {
     const {address} = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState(null);
 
-    // useEffect(() => {
-    //     // searchNapster();
-    //     if (address) {
-    //         // searchTrails();
-    //     }
-    // }, [address]);
+    useEffect(() => {
+        async function fetchData() {
+            if (address && !results) {
+                await handleGeocode();
+            }
+        }
+        fetchData();
+
+    }, [address]);
 
     const searchTrails = async (lat, lng) => {
         console.log(address);
@@ -32,8 +35,7 @@ function Results() {
 
     const handleGeocode = async () => {
         const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_KEY}`;
-        axios
-            .get(url)
+        axios.get(url)
             .then(async (response) => {
                 if (response.data.status === "OK") {
                     const {lat, lng} = response.data.results[0].geometry.location;
@@ -56,15 +58,15 @@ function Results() {
 
             {/*<div className="container mt-5">*/}
             {/*    <div className="row row-cols-1 row-cols-md-3 g-4">*/}
-                {
-                    results.map(trail => <TrailCard trail={trail}/>)
+            <div className="row row-cols-2 g-3">
+                {results ?
+                    results.map(trail => trail.thumbnail ? <TrailCard trail={trail}/> : '')
+                 : <h1>Loading...</h1>
                 }
+            </div>
             {/*    </div>*/}
             {/*</div>*/}
 
-
-
-            <button type="button" onClick={handleGeocode}> show results </button>
 
         </div>
     );

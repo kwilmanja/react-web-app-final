@@ -1,9 +1,13 @@
 import {Link} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {logoutThunk} from "./users/auth-thunks";
+import React from "react";
 
 function Nav() {
 
     const { currentUser } = useSelector((state) => state.auth);
+
+    const dispatch = useDispatch();
 
     return (
         <div>
@@ -49,6 +53,17 @@ function Nav() {
                                  <Link className="nav-link" to="/admin">Admin</Link>
                              </li>
                             }
+
+                            {currentUser &&
+                                 <li className="nav-item">
+                                     <Link className="nav-link" to="/login">
+                                         <span onClick={() => {
+                                             dispatch(logoutThunk());
+                                         }}>Logout</span>
+                                     </Link>
+                                 </li>
+                            }
+
                         </ul>
 
                     </div>

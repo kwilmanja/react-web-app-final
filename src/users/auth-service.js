@@ -10,7 +10,6 @@ export const login = async ({ username, password }) => {
         username,
         password,
     });
-    //returns user
     return response.data;
 };
 
@@ -32,12 +31,8 @@ export const updateUser = async (user) => {
 };
 
 
-export const register = async ({ username, password }) => {
-    const response = await api.post(`${USERS_URL}/register`, {
-        username,
-        password,
-    });
-    //returns new user
+export const register = async (credentials) => {
+    const response = await api.post(`${USERS_URL}/register`, credentials);
     return response.data;
 }
 

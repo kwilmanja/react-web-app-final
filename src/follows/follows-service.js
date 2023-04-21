@@ -24,11 +24,11 @@ export const findFollowed = async (username) => {
     return response.data;
 }
 
-export const findFollow = async (follower, followed) => {
-    const response = await api.post(`${FOLLOWS_API}/follow`, {
-        follower: follower,
-        followed: followed
-    });
-    return response.data;
-};
+// export const findFollow = async (follower, followed) => {
+//     const response = await api.post(`${FOLLOWS_API}/follow`, {
+//         follower: follower,
+//         followed: followed
+//     });
+//     return response.data;
+// };
 

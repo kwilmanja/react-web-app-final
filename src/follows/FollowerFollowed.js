@@ -6,20 +6,16 @@ import {profileThunk} from "../users/auth-thunks";
 
 
 
-function FollowerFollowed() {
+function FollowerFollowed({username}) {
     const [follower, setFollower] = useState(null);
     const [followed, setFollowed] = useState(null);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const getFollowInformation = async (username) => {
+    const getFollowInformation = async () => {
         const followerInfo = await dispatch(findFollowerThunk(username));
         const followedInfo = await dispatch(findFollowedThunk(username));
-        // console.log('username');
-        // console.log(username);
-        // console.log(follower);
-        // console.log(followed);
         setFollowed(followedInfo.payload);
         setFollower(followerInfo.payload);
     }
@@ -27,15 +23,16 @@ function FollowerFollowed() {
 
 
     useEffect(() => {
-        async function fetchData() {
-            try {
-                const actionProfile = await dispatch(profileThunk());
-                getFollowInformation(actionProfile.payload.username);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        fetchData();
+        getFollowInformation();
+        // async function fetchData() {
+        //     try {
+        //         const actionProfile = await dispatch(profileThunk());
+        //         getFollowInformation(actionProfile.payload.username);
+        //     } catch (error) {
+        //         console.error(error);
+        //     }
+        // }
+        // fetchData();
     }, []);
 
     return (
@@ -47,14 +44,21 @@ function FollowerFollowed() {
              (
              <div>
                     <h2>Following: </h2>
+                 <ul>
                     {followed &&
-                     followed.map(follow => <h1 //onClick={navigate(`/profile/${follow.followed}`)}
-                         >{follow.followed}</h1>)}
+                     followed.map(follow => <li onClick={() => {
+                         navigate(`/profile/${follow.followed}`)
+                     }}
+                         >{follow.followed}</li>)}
+                 </ul>
                     <h2>Followers: </h2>
+                 <ul>
                     {follower &&
-                     follower.map(follow => <h1 //onClick={navigate(`/profilej/${follow.follower}`)}
-                    >{follow.follower}</h1>)}
-
+                     follower.map(follow => <li onClick={() => {
+                         navigate(`/profile/${follow.follower}`)
+                     }}
+                    >{follow.follower}</li>)}
+                 </ul>
 
 
                 </div>

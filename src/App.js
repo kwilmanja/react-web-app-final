@@ -14,6 +14,7 @@ import Register from "./login/Register";
 import PublicProfile from "./profile/PublicProfile";
 import CurrentUserContext from "./users/current-user-context";
 import Admin from "./login/Admin";
+import ProfileEdit from "./profile/ProfileEdit";
 
 
 
@@ -34,6 +35,7 @@ function App() {
                       <Route path="/login" element={<Login />} />
                       <Route path="/register" element={<Register />} />
                       <Route path="/profile" element={<Profile />} />
+                      <Route path="/profile/edit" element={<ProfileEdit />} />
                       <Route path="/profile/:username" element={<Profile />} />
                       <Route path="/admin" element={<Admin/>}/>
 

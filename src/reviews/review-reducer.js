@@ -13,7 +13,7 @@ const reviewSlice = createSlice({
                                   reducers: {},
                                   extraReducers: {
                                       [createReviewThunk.fulfilled]: (state, { payload }) => {
-                                          state.listedReviews.push(payload);
+                                          state.listedReviews.unshift(payload);
                                       },
                                       [findReviewThunk.fulfilled]: (state, { payload }) => {
                                           state.singleReview = payload;
@@ -27,7 +27,7 @@ const reviewSlice = createSlice({
                                           );
                                       },
                                       [findReviewsFromTrailIDThunk.fulfilled]: (state, { payload }) => {
-                                          state.listedReviews = payload;
+                                          state.listedReviews = payload.reverse();
                                       },
                                       [findReviewsFromUsernameThunk.fulfilled]: (state, { payload }) => {
                                           state.listedReviews = payload;

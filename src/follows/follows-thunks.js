@@ -18,17 +18,17 @@ export const unfollowUserThunk = createAsyncThunk(
 )
 
 export const findFollowerThunk = createAsyncThunk(
-    'findFollowerUser',
+    'findFollower',
     async (username) => await findFollower(username)
 )
 
 export const findFollowedThunk = createAsyncThunk(
-    'findFollowedUser',
+    'findFollowed',
     async (username) => await findFollowed(username)
 )
 
-export const findFollowThunk = createAsyncThunk(
-    'findFollow',
-    async (follower, followed) =>
-        await findFollow(follower, followed)
-)
+// export const findFollowThunk = createAsyncThunk(
+//     'findFollow',
+//     async (follower, followed) =>
+//         await findFollow(follower, followed)
+// )

@@ -6,23 +6,26 @@ const {createSlice} = require("@reduxjs/toolkit");
 const followsSlice = createSlice({
         name: 'follows',
         initialState: {
-            follower: [],
-            followed: []
+            currentFollower: [],
+            currentFollowed: []
         },
+        reducers: {},
         extraReducers: {
             [followUserThunk.fulfilled]: (state, {payload}) => {
-                state.follower.push(payload);
+                //state.currentFollowed.push(payload);
             },
             [unfollowUserThunk.fulfilled]: (state, {payload}) => {
-                state.follower.remove(payload);
+                //state.currentFollowed.remove(payload);
             },
             [findFollowerThunk.fulfilled]: (state, {payload}) => {
-                state.follower = (payload);
+                const followerNames = payload.map((user) => user.follower);
+                state.currentFollower = (followerNames);
             },
             [findFollowedThunk.fulfilled]: (state, {payload}) => {
-                state.followed = (payload);
+                const followedNames = payload.map((user) => user.followed);
+                state.currentFollowed = (followedNames);
             },
-            [findFollowThunk.fulfilled]: (state, {payload}) => {},
+            // [findFollowThunk.fulfilled]: (state, {payload}) => {},
         }
     });
 

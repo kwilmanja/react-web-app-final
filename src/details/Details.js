@@ -9,6 +9,7 @@ import {
 import {findFollowedThunk, findFollowerThunk} from "../follows/follows-thunks";
 import {Link} from "react-router-dom";
 import {trailSearchID, trailSearchLatLng} from "../trails/trail-service";
+import DetailsReview from "./DetailsReview";
 
 function Details() {
 
@@ -40,6 +41,7 @@ function Details() {
 
         dispatch(createReviewThunk(review));
         findTrailReviews()
+        setContent('');
     }
 
     const findTrailByID = async () => {
@@ -55,11 +57,8 @@ function Details() {
         dispatch(findReviewsFromTrailIDThunk(trailID));
     }
 
-
-    const deleteReview = (reviewID) => {
-        // dispatch
-        console.log('deleting review');
-        console.log(reviewID);
+    const textboxStyle = {
+        "width": "70%"
     }
 
     return (
@@ -68,44 +67,41 @@ function Details() {
                 <div>
                     <h1> {trailID} - {trail.name}</h1>
 
+                    <hr/>
+
                     <div>
                         {currentUser && (
                             <div>
-                                <label>Write a Review: </label>
-                                <input type="text"
-                                       value={content}
-                                       onChange={(event) => {
-                                           setContent(event.target.value);
-                                       }}
+                                <div>
+                                <h5>Write a Review: </h5>
+                                <textarea
+                                    style={textboxStyle}
+                                    rows="4"
+                                    value={content}
+                                    onChange={(event) => {
+                                        setContent(event.target.value);
+                                    }}
                                 />
+                            </div>
 
-                                <button onClick={post}>
-                                    Submit</button>
+                            <button type="button" className="btn btn-primary" onClick={post}>
+                                Post Review</button>
+
 
                             </div>
 
                         )}
                     </div>
 
+                    <hr/>
+
                     <div>
 
-                        <ul>
-                            {listedReviews.map(review => <li>
-                               <h1>{review.username}</h1>
-                                <h3>{review.content}</h3>
-                               {currentUser && (currentUser.isAdmin || currentUser.username === review.username) && (
-                                   <button className="btn btn-primary float-end" type="button" id="button-addon2"
-                                           onClick={async () => {
-                                               // console.log(review._id);
-                                               await dispatch(deleteReviewThunk(review._id));
-                                               findTrailReviews();
-                                           }}>Delete</button>
-                               )}
+                        {listedReviews.map(review =>
+                            <DetailsReview review={review}/>
+                        )}
 
-                            </li>
-                            )}
 
-                        </ul>
 
 
                     </div>

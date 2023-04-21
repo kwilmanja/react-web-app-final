@@ -3,13 +3,19 @@ import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import {registerThunk} from "../users/auth-thunks";
 function Register() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [credentials, setCredentials] = useState(
+        {
+            username: '',
+        password: '',
+        role: 'user',
+        isAdmin: false
+        });
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleRegister = async () => {
         try {
-            await dispatch(registerThunk({ username, password }));
+            await dispatch(registerThunk(credentials));
             navigate("/profile");
         } catch (e) {
             alert(e);
@@ -21,20 +27,51 @@ function Register() {
             <div>
                 <label>Username</label>
                 <input className="form-control"
-                       type="text" value={username}
-                       onChange={(event) => setUsername(event.target.value)}
+                       type="text" value={credentials.username}
+                       onChange={(event) => {
+                           const newCreds = {
+                               ...credentials,
+                               username: event.target.value,
+                           };
+                           setCredentials(newCreds);
+                       }}
                 />
             </div>
             <div>
                 <label>Password</label>
                 <input className="form-control"
-                       type="password" value={password}
-                       onChange={(event) => setPassword(event.target.value)}
+                       type="password" value={credentials.password}
+                       onChange={(event) => {
+                           const newCreds = {
+                               ...credentials,
+                               password: event.target.value,
+                           };
+                           setCredentials(newCreds);
+                       }}
                 />
             </div>
-            <button onClick={handleRegister}>
-                Register
-            </button>
+            <div>
+                <label htmlFor="exampleSelect1" className="mr-2">Role</label>
+                <select className="form-select" id="exampleSelect1"
+                        defaultValue={credentials.role}
+                        onChange={(event) => {
+                            const newCreds = {
+                            ...credentials,
+                            role: event.target.value,
+                            isAdmin: event.target.value === 'admin'
+                        };
+                            setCredentials(newCreds);
+                        }}>
+                    <option>user</option>
+                    <option>admin</option>
+                </select>
+            </div>
+
+            <div className="pt-2">
+                <button onClick={handleRegister}>
+                    Register
+                </button>
+            </div>
         </div>
     );
 
