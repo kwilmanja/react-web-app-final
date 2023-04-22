@@ -11,7 +11,6 @@ import Details from "./details/Details";
 import Profile from "./profile/Profile";
 import Login from "./login/Login";
 import Register from "./login/Register";
-import PublicProfile from "./profile/PublicProfile";
 import CurrentUserContext from "./users/current-user-context";
 import Admin from "./login/Admin";
 import ProfileEdit from "./profile/ProfileEdit";

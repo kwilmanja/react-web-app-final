@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
     createReviewThunk,
-    deleteReviewThunk, findReviewsFromTrailIDThunk, findReviewsFromUsernameThunk,
+    deleteReviewThunk,
+    findAllReviewsThunk,
+    findReviewsFromTrailIDThunk,
+    findReviewsFromUsernameThunk,
     findReviewThunk,
     updateReviewThunk
 } from "./review-thunks.js";
@@ -19,7 +22,16 @@ const reviewSlice = createSlice({
                                           state.singleReview = payload;
                                       },
                                       [updateReviewThunk.fulfilled]: (state, { payload }) => {
-                                          // state.listedReviews.replace(payload);
+                                          console.log(payload);
+                                          state.listedReviews = state.listedReviews.map(
+                                              (review) => {
+                                                  if(review._id === payload._id){
+                                                      return payload;
+                                                  } else{
+                                                      return review;
+                                                  }
+                                              }
+                                          );
                                       },
                                       [deleteReviewThunk.fulfilled]: (state, { payload }) => {
                                           state.listedReviews = state.listedReviews.filter(
@@ -30,6 +42,9 @@ const reviewSlice = createSlice({
                                           state.listedReviews = payload.reverse();
                                       },
                                       [findReviewsFromUsernameThunk.fulfilled]: (state, { payload }) => {
+                                          state.listedReviews = payload;
+                                      },
+                                      [findAllReviewsThunk.fulfilled]: (state, { payload }) => {
                                           state.listedReviews = payload;
                                       },
 

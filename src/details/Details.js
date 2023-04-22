@@ -10,6 +10,7 @@ import {findFollowedThunk, findFollowerThunk} from "../follows/follows-thunks";
 import {Link} from "react-router-dom";
 import {trailSearchID, trailSearchLatLng} from "../trails/trail-service";
 import DetailsReview from "./DetailsReview";
+import DetailsTrail from "./DetailsTrail";
 
 function Details() {
 
@@ -17,8 +18,8 @@ function Details() {
     const {listedReviews} = useSelector((state) => state.reviews);
 
     const {trailID} = useParams();
-    // const [trail, setTrail] = useState();
-    const [trail, setTrail] = useState({_id: trailID, name: 'MockTrail'});
+    const [trail, setTrail] = useState();
+    //const [trail, setTrail] = useState({_id: trailID, name: 'MockTrail'});
 
     const [content, setContent] = useState('');
 
@@ -65,7 +66,8 @@ function Details() {
         <div>
             {trail && (
                 <div>
-                    <h1> {trailID} - {trail.name}</h1>
+
+                    <DetailsTrail trail={trail}/>
 
                     <hr/>
 
