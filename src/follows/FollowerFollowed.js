@@ -5,10 +5,16 @@ import {findFollowedThunk, findFollowerThunk} from "./follows-thunks";
 import {profileThunk} from "../users/auth-thunks";
 import {Link} from "react-router-dom";
 import {findUserByUsername} from "../users/auth-service";
+import {current} from "@reduxjs/toolkit";
+import {findFollowed, findFollower} from "./follows-service";
 
 
 
 function FollowerFollowed({username}) {
+
+    const {currentFollowed} = useSelector((state) => state.follows);
+
+
     const [follower, setFollower] = useState(null);
     const [followed, setFollowed] = useState(null);
 
@@ -16,44 +22,49 @@ function FollowerFollowed({username}) {
     const navigate = useNavigate();
 
     const getFollowInformation = async () => {
-        const followerInfo = await dispatch(findFollowerThunk(username));
-        const followedInfo = await dispatch(findFollowedThunk(username));
-        setFollowed(followedInfo.payload);
-        setFollower(followerInfo.payload);
+        const followerInfo = await findFollower(username);
+        const followedInfo = await findFollowed(username);
+        setFollowed(followedInfo);
+        setFollower(followerInfo);
     }
+
+    // const borderStyle = {
+    //     "border-style": "solid",
+    //     "border-width": "4px",
+    //     "border-color": "blue",
+    //     "border-radius": "20px",
+    //     "padding": "20px"
+    // }
 
 
 
     useEffect(() => {
         getFollowInformation();
-    }, [username]);
+    }, [username, currentFollowed]);
 
     return (
-        <div>
-            <h1>Follow Information</h1>
-
-
+        <div className="text-center">
             {(follower && followed) &&
              (
-             <div>
+             <div className="me-4">
                     <h2>Following: </h2>
                  <ul>
                     {followed &&
                      followed.map(follow =>
-                         <li
+                         <p
                          onClick={async () => {
                              navigate(`/profile/${follow.followed}`);
                          }}
-                         >{follow.followed}</li>
+                         >{follow.followed}</p>
                         )}
                  </ul>
                     <h2>Followers: </h2>
                  <ul>
                     {follower &&
-                     follower.map(follow => <li onClick={() => {
+                     follower.map(follow => <p onClick={() => {
                          navigate(`/profile/${follow.follower}`)
                      }}
-                    >{follow.follower}</li>)}
+                    >{follow.follower}</p>)}
                  </ul>
 
 

@@ -74,7 +74,7 @@ function Details() {
     }
 
     return (
-        <div>
+        <div className="mb-5">
             {trail && (
                 <div>
 

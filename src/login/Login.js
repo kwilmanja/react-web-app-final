@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { loginThunk } from "../users/auth-thunks";
+import {findFollowedThunk, findFollowerThunk} from "../follows/follows-thunks";
 function Login() {
 
     const [username, setUsername] = useState("");
@@ -17,7 +18,7 @@ function Login() {
 
     return (
         <div>
-            <h1>Login Screen</h1>
+            <h1>Login</h1>
             <div>
                 <label>Username</label>
                 <input className="form-control"
@@ -32,7 +33,7 @@ function Login() {
                        onChange={(event) => setPassword(event.target.value)}
                 />
             </div>
-            <button onClick={handleLogin}>
+            <button className="mt-2 btn btn-info" onClick={handleLogin}>
                 Login
             </button>
         </div>

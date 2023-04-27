@@ -6,59 +6,32 @@ import DetailsReview from "../details/DetailsReview";
 import HomeTrailCard from "./HomeTrailCard";
 import {trailSearchIDThunk} from "../trails/trail-thunks";
 import {trailSearchID} from "../trails/trail-service";
+import {collectTrailIDs, findTrails} from "../utility";
 
 export default function Home() {
 
     const { currentUser } = useSelector((state) => state.auth);
-    const {currentFollowed, currentFollower} = useSelector((state) => state.follows);
 
     const [trails, setTrails] = useState([]);
-    const [borderArray, setBorderArray] = useState([]);
     const [reviews, setReviews] = useState([]);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         async function fetchData() {
-                dispatch(findAllReviewsThunk());
-                const reviewsAction = await dispatch(findAllReviewsThunk());
-                const reversedReviews = reviewsAction.payload;
-                const reviews = reversedReviews.slice();
-                reviews.reverse();
-                setReviews(reviews);
-                const trailIDs = collectTrailIDs(reviews);
-                await findTrails(trailIDs);
+            dispatch(findAllReviewsThunk());
+            const reviewsAction = await dispatch(findAllReviewsThunk());
+            const reversedReviews = reviewsAction.payload;
+            const reviews = reversedReviews.slice();
+            reviews.reverse();
+            setReviews(reviews);
+            const trailIDs = collectTrailIDs(reviews);
+            const newTrails = await findTrails(trailIDs)
+            setTrails(newTrails);
         }
         fetchData();
     }, []);
 
-    const findTrails = async (trailIDs) => {
-
-        const newTrails = [];
-
-        for (const trailID of trailIDs) {
-            const trail = await trailSearchID(trailID);
-            newTrails.push(trail.data[0]);
-        }
-        console.log(newTrails);
-
-        setTrails(newTrails);
-
-    }
-
-    const collectTrailIDs = (reviews) => {
-
-        const trailIDs = [];
-
-        reviews.forEach((review) => {
-            if(!trailIDs.includes(review.trailID)){
-                trailIDs.unshift(review.trailID)
-            }
-        });
-
-        return trailIDs;
-
-    }
 
     const background = {
         "background-image": "url('images/bike2.jpg')",
@@ -91,7 +64,7 @@ export default function Home() {
                 <h1 className="text-center" style={header}>Mountain Biker Blog</h1>
 
                 <div>
-                    {trails.map((trail) =>
+                    {trails && reviews && trails.map((trail) =>
                                     <HomeTrailCard trail={trail} reviews={reviews}/>
                     )}
 

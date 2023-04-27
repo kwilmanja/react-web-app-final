@@ -6,6 +6,7 @@ import {
     updateReviewThunk
 } from "../reviews/review-thunks";
 import {Link} from "react-router-dom";
+import {formatDate} from "../utility";
 
 function HomeReview({review}) {
 
@@ -14,22 +15,6 @@ function HomeReview({review}) {
     const link = {
         "text-decoration": "none",
         "color": "black"
-    }
-
-
-    const formatDate = (reviewDate) => {
-        const date = new Date(reviewDate);
-        const now = Date.now();
-
-        const diffInMs = Math.abs(now - date);
-        const diffInHours = Math.floor(diffInMs / (60 * 60 * 1000));
-
-        if(diffInHours < 24){
-            return (diffInHours) + "h ago";
-        } else {
-            return "on " + date.toLocaleDateString();
-
-        }
     }
 
 

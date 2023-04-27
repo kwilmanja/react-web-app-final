@@ -5,6 +5,8 @@ import {
     findReviewsFromTrailIDThunk,
     updateReviewThunk
 } from "../reviews/review-thunks";
+import {Link} from "react-router-dom";
+import {formatDate} from "../utility";
 
 function DetailsReview({review}) {
 
@@ -17,41 +19,16 @@ function DetailsReview({review}) {
     const dispatch = useDispatch();
 
 
-
-    const formatDate = (reviewDate) => {
-        const date = new Date(reviewDate);
-        const now = Date.now();
-
-        const diffInMs = Math.abs(now - date);
-        const diffInHours = Math.floor(diffInMs / (60 * 60 * 1000));
-
-        if(diffInHours < 24){
-            return (diffInHours) + "h ago";
-        } else {
-            return "on " + date.toLocaleDateString();
-
-        }
+    const link = {
+        "text-decoration": "none",
+        "color": "black"
     }
-
 
 
 
 
     return(
         <div>
-
-     {/*<li>*/}
-     {/*   <h1>{review.username}</h1>*/}
-     {/*   <h3>{review.content}</h3>*/}
-     {/*   {currentUser && (currentUser.isAdmin || currentUser.username === review.username) && (*/}
-     {/*       <button className="btn btn-primary float-end" type="button" id="button-addon2"*/}
-     {/*               onClick={async () => {*/}
-     {/*                   await dispatch(deleteReviewThunk(review._id));*/}
-     {/*                   dispatch(findReviewsFromTrailIDThunk(review.trailID));*/}
-     {/*               }}>Delete</button>*/}
-     {/*   )}*/}
-
-     {/*</li>*/}
 
             {review && (review.public || currentFollowed.includes(review.username)
             || (currentUser && currentUser.username === review.username)) &&
@@ -111,9 +88,11 @@ function DetailsReview({review}) {
                          <blockquote className="blockquote">
                             <p className="mb-0">{review.content}</p>
                          </blockquote>
-                         <figcaption className="blockquote-footer">
-                            {review.username} {review.published ? formatDate(review.published) : ''}
-                         </figcaption>
+                         <Link to={'/profile/' + review.username} style={link}>
+                             <figcaption className="blockquote-footer">
+                                {review.username} {review.published ? formatDate(review.published) : ''}
+                             </figcaption>
+                         </Link>
                      </figure>
                   </div>
                  }

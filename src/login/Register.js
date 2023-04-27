@@ -68,7 +68,7 @@ function Register() {
             </div>
 
             <div className="pt-2">
-                <button onClick={handleRegister}>
+                <button className="btn btn-info" onClick={handleRegister}>
                     Register
                 </button>
             </div>

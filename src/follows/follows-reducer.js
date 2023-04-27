@@ -12,10 +12,11 @@ const followsSlice = createSlice({
         reducers: {},
         extraReducers: {
             [followUserThunk.fulfilled]: (state, {payload}) => {
-                //state.currentFollowed.push(payload);
+                console.log(payload);
+                state.currentFollowed.push(payload);
             },
             [unfollowUserThunk.fulfilled]: (state, {payload}) => {
-                //state.currentFollowed.remove(payload);
+                state.currentFollowed = state.currentFollowed.filter((person) => person !== payload);
             },
             [findFollowerThunk.fulfilled]: (state, {payload}) => {
                 const followerNames = payload.map((user) => user.follower);

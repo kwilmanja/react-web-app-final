@@ -75,22 +75,22 @@ function ProfileEdit() {
 
                          </div>
 
-                         <div className="form-check form-switch">
+                         {/*<div className="form-check form-switch">*/}
 
-                             <label className="form-check-label"
-                                    htmlFor="flexSwitchCheckDefault">Public Profile </label>
+                         {/*    <label className="form-check-label"*/}
+                         {/*           htmlFor="flexSwitchCheckDefault">Public Profile </label>*/}
 
-                             <input className="form-check-input" type="checkbox"
-                                    id="flexSwitchCheckDefault" checked={profile.public} onChange=
-                                        {(event) => {
-                                            const newProfile = {
-                                                ...profile,
-                                                public: !profile.public,
-                                            };
-                                            setProfile(newProfile);
-                                        }}
-                             />
-                         </div>
+                         {/*    <input className="form-check-input" type="checkbox"*/}
+                         {/*           id="flexSwitchCheckDefault" checked={profile.public} onChange=*/}
+                         {/*               {(event) => {*/}
+                         {/*                   const newProfile = {*/}
+                         {/*                       ...profile,*/}
+                         {/*                       public: !profile.public,*/}
+                         {/*                   };*/}
+                         {/*                   setProfile(newProfile);*/}
+                         {/*               }}*/}
+                         {/*    />*/}
+                         {/*</div>*/}
 
                      </div>
 

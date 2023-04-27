@@ -6,6 +6,8 @@ import {findFollowedThunk, findFollowerThunk} from "../follows/follows-thunks";
 
 function CurrentUserContext({ children }) {
 
+    const { currentUser } = useSelector((state) => state.auth);
+
     const dispatch = useDispatch();
 
     const getProfile = async () => {
@@ -13,17 +15,22 @@ function CurrentUserContext({ children }) {
     };
 
     const getCurrentUsersFollow = async (user) => {
-        await dispatch(findFollowerThunk(user.username));
-        await dispatch(findFollowedThunk(user.username));
+        if(user){
+            await dispatch(findFollowerThunk(user.username));
+            await dispatch(findFollowedThunk(user.username));
+        }
     }
 
     useEffect(() => {
         async function fetchData() {
-            const profileAction = await getProfile();
-            getCurrentUsersFollow(profileAction.payload);
+            if(!currentUser) {
+                const profileAction = await getProfile();
+                getCurrentUsersFollow(profileAction.payload);
+            }
         }
         fetchData();
-    }, []);
+        console.log("fetching current user")
+    }, [currentUser]);
 
     return children;
 }
