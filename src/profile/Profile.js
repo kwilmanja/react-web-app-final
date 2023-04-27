@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {useNavigate, useParams} from "react-router";
-import {
-    profileThunk,
-    logoutThunk,
-    updateUserThunk,
-    findUserByUsernameThunk
-} from "../users/auth-thunks.js";
-import {findFollowedThunk, findFollowerThunk} from "../follows/follows-thunks.js";
 import FollowerFollowed from "../follows/FollowerFollowed";
 import UserReviews from "../reviews/UserReview";
+import {findAllReviewsThunk} from "../reviews/review-thunks";
+import * as authService from "../users/auth-service";
+
 
 
 function Profile() {
-    const { currentUser } = useSelector((state) => state.auth);
+    const { username } = useParams();
+    // const { currentUser } = useSelector((state) => state.auth);
 
     const [profile, setProfile] = useState({});
 
@@ -23,31 +20,48 @@ function Profile() {
 
 
     const edit = () => {
-        setProfile(currentUser);
+        // setProfile(currentUser);
         navigate('/profile/edit');
     };
+
+    useEffect(() => {
+        async function fetchData() {
+            let user;
+            if(username){
+                user = await authService.findUserByUsername(username);
+            } else{
+                user = await authService.profile();
+            }
+
+            setProfile(user);
+
+            console.log('username change');
+
+        }
+        fetchData();
+    }, [username]);
 
 
     return (
 
         <div>
-            {currentUser && (
+            {profile && (
                 <div>
-                    <h1>{currentUser.username}'s Profile</h1>
+                    <h1>{profile.username}'s Profile</h1>
                      <div>
-                         <h1>First Name: {currentUser.firstName}</h1>
-                         <h1>Last Name: {currentUser.lastName}</h1>
-                         <h1>Level: {currentUser.level}</h1>
-                         <h1>Privacy: {currentUser.public ? 'Public' : 'Private' }</h1>
+                         <h1>First Name: {profile.firstName}</h1>
+                         <h1>Last Name: {profile.lastName}</h1>
+                         <h1>Level: {profile.level}</h1>
+                         <h1>Privacy: {profile.public ? 'Public' : 'Private' }</h1>
 
                      </div>
 
                      <button onClick={edit}>Edit</button>
 
                     <hr/>
-                    <FollowerFollowed username={currentUser.username}/>
+                    <FollowerFollowed username={profile.username}/>
                     <hr/>
-                    <UserReviews username={currentUser.username}/>
+                    <UserReviews username={profile.username}/>
 
 
                 </div>

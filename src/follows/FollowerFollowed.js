@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import {useNavigate, useParams} from "react-router";
 import {findFollowedThunk, findFollowerThunk} from "./follows-thunks";
 import {profileThunk} from "../users/auth-thunks";
+import {Link} from "react-router-dom";
+import {findUserByUsername} from "../users/auth-service";
 
 
 
@@ -24,16 +26,7 @@ function FollowerFollowed({username}) {
 
     useEffect(() => {
         getFollowInformation();
-        // async function fetchData() {
-        //     try {
-        //         const actionProfile = await dispatch(profileThunk());
-        //         getFollowInformation(actionProfile.payload.username);
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // }
-        // fetchData();
-    }, []);
+    }, [username]);
 
     return (
         <div>
@@ -46,10 +39,13 @@ function FollowerFollowed({username}) {
                     <h2>Following: </h2>
                  <ul>
                     {followed &&
-                     followed.map(follow => <li onClick={() => {
-                         navigate(`/profile/${follow.followed}`)
-                     }}
-                         >{follow.followed}</li>)}
+                     followed.map(follow =>
+                         <li
+                         onClick={async () => {
+                             navigate(`/profile/${follow.followed}`);
+                         }}
+                         >{follow.followed}</li>
+                        )}
                  </ul>
                     <h2>Followers: </h2>
                  <ul>

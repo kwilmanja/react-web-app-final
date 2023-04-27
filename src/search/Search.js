@@ -59,8 +59,9 @@ function Search() {
                    id="inputLarge" placeholder="Destination"
                    ref={destinationRef}
             />
+
             {/*</Autocomplete>*/}
-            <button className="btn btn-primary" type="button" id="button-addon2"
+            <button className="btn btn-primary mt-2" type="button" id="button-addon2"
                     onClick={newAddress}>Submit</button>
 
         </div>

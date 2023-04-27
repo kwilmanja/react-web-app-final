@@ -21,9 +21,10 @@ export default function Home() {
     useEffect(() => {
         async function fetchData() {
                 dispatch(findAllReviewsThunk());
-                populateBorder();
                 const reviewsAction = await dispatch(findAllReviewsThunk());
-                const reviews = reviewsAction.payload;
+                const reversedReviews = reviewsAction.payload;
+                const reviews = reversedReviews.slice();
+                reviews.reverse();
                 setReviews(reviews);
                 const trailIDs = collectTrailIDs(reviews);
                 await findTrails(trailIDs);
@@ -51,7 +52,7 @@ export default function Home() {
 
         reviews.forEach((review) => {
             if(!trailIDs.includes(review.trailID)){
-                trailIDs.push(review.trailID)
+                trailIDs.unshift(review.trailID)
             }
         });
 
@@ -59,41 +60,35 @@ export default function Home() {
 
     }
 
-    const populateBorder = () => {
-
-        const imageArray = ['bike2.jpg', 'bike3.jpg'];
-
-        const iterations = 3;
-
-        const newImageArray = [];
-
-        for (let i = 0; i < iterations; i++) {
-            for (let j = 0; j < imageArray.length; j++) {
-                newImageArray.push(imageArray[j]);
-            }
-        }
-
-        setBorderArray(newImageArray);
+    const background = {
+        "background-image": "url('images/bike2.jpg')",
+        "background-size": "cover",
+        "background-repeat": "no-repeat",
+        "background-position": "center center"
     }
 
     const image2Style = {
         "width": "100%"
     }
 
-    return (
-        <div className="row">
+    const header = {
+        "color": "white",
+        "text-shadow":
+    "-3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000"
+    }
 
-            <div className="col-2">
-                {borderArray.map((imageName) =>
-                                       <img style={image2Style} src={`images/${imageName}`} alt={'missing'}/>
-                )}
+    return (
+        <div className="row" style={background}>
+
+            <div className="col-md-1 col-lg-2 col-xl-3">
+
             </div>
 
-            <div className="col-8">
+            <div className="col-auto col-md-10 col-lg-8 col-xl-6">
                 {currentUser && (
-                <h1>Hello {currentUser.username}</h1>)}
+                <h1 className="text-center" style={header}>Hello {currentUser.username}</h1>)}
 
-                <h1>Hello, welcome to React.js</h1>
+                <h1 className="text-center" style={header}>Mountain Biker Blog</h1>
 
                 <div>
                     {trails.map((trail) =>
@@ -104,10 +99,8 @@ export default function Home() {
 
             </div>
 
-            <div className="col-2">
-                {borderArray.map((imageName) =>
-                                     <img style={image2Style} src={`images/${imageName}`} alt={'missing'}/>
-                )}
+            <div className="col-md-1 col-lg-2 col-xl-3">
+
             </div>
 
         </div>

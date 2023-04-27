@@ -3,10 +3,12 @@ import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import DetailsReview from "../details/DetailsReview";
 import {findAllReviewsThunk} from "../reviews/review-thunks";
+import HomeReview from "./HomeReview";
 const HomeTrailCard = ({trail, reviews}) => {
 
     const { currentUser } = useSelector((state) => state.auth);
     const {currentFollowed, currentFollower} = useSelector((state) => state.follows);
+
 
     const characterLimit = 650;
 
@@ -40,13 +42,6 @@ const HomeTrailCard = ({trail, reviews}) => {
         "text-decoration": "none",
         "color": "black"
     }
-
-    useEffect(() => {
-        async function fetchData() {
-
-        }
-        fetchData();
-    }, []);
 
 
 
@@ -93,7 +88,7 @@ const HomeTrailCard = ({trail, reviews}) => {
                                     )
                         )
                         .map((review) =>
-                                <DetailsReview review={review}/>
+                                <HomeReview review={review}/>
                         )
 
                     }

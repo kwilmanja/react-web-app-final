@@ -22,6 +22,7 @@ function Details() {
     //const [trail, setTrail] = useState({_id: trailID, name: 'MockTrail'});
 
     const [content, setContent] = useState('');
+    const [privacy, setPrivacy] = useState(true);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -33,11 +34,15 @@ function Details() {
 
 
     const post = () => {
+        if(content.length === 0){
+            return;
+        }
         const review ={
             content: content,
             username: currentUser.username,
             trailID: trailID,
-            trailName: trail.name
+            trailName: trail.name,
+            public: privacy
         }
 
         dispatch(createReviewThunk(review));
@@ -60,6 +65,12 @@ function Details() {
 
     const textboxStyle = {
         "width": "70%"
+    }
+
+    const privacyStyle = {
+        "position": "relative",
+        "top": "7px",
+        "left": "10px"
     }
 
     return (
@@ -86,8 +97,28 @@ function Details() {
                                 />
                             </div>
 
-                            <button type="button" className="btn btn-primary" onClick={post}>
-                                Post Review</button>
+                                <div style={textboxStyle}>
+
+                                    <span className="form-check float-end" style={privacyStyle}>
+                                        <label className="form-check-label"
+                                               htmlFor="flexCheckChecked">
+                                            public
+                                        </label>
+                                        <input className="form-check-input" type="checkbox"
+                                               checked={privacy}
+                                               onChange={() => setPrivacy(!privacy)}/>
+                                    </span>
+
+                                    <div>
+
+                                        <button type="button" className="btn btn-primary d-inline" onClick={post}>
+                                                Post Review</button>
+                                    </div>
+
+
+
+                                </div>
+
 
 
                             </div>

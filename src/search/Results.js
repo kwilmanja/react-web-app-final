@@ -58,7 +58,7 @@ function Results() {
 
             {/*<div className="container mt-5">*/}
             {/*    <div className="row row-cols-1 row-cols-md-3 g-4">*/}
-            <div className="row row-cols-2 g-3">
+            <div className="row row-cols-xl-2 g-3">
                 {results ?
                     results.map(trail => trail.thumbnail ? <TrailCard trail={trail}/> : '')
                  : <h1>Loading...</h1>
